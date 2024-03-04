@@ -1,0 +1,77 @@
+head {
+    font-family: 'Arial', sans-serif;
+    background-color:#000000;
+    color: #ffffff;
+    display: flex;;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#timer {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.Main {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    background-color: #000000;
+    padding: 40px;
+    border-radius: px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    margin:25px 0;
+    font-size: 2rem;
+    margin-top: 0;
+    font-size: 2rem;
+    color: #ffffff;
+}
+
+button, .main-content button {
+    padding: 15px 25px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px;  /* This ensures there's a margin on all sides */
+}
+
+button:hover, .main button:hover {
+    background-color: #ffffff;
+}
+
+#check-high-scores {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#check-high-scores:hover {
+    color: red;
+}
