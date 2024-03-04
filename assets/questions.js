@@ -1,4 +1,4 @@
-let questions = [
+const questions = [
     {
         title: "Commonly used data types DO NOT include?",
         options: ["Strings", "Booleans", "Alerts", "Numbers"],
