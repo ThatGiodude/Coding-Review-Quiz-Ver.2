@@ -1,11 +1,13 @@
-let mainsection = document.querySelector("main");
+let mainContent = document.querySelector("main");
 let timerEl = document.getElementById("timer");
-let buttonStart = document.getElementById("start-button");
-let highscores = document.getElementById("check-high-scores");
-let timeleft = 60;
+let buttonStart = document.querySelector(".start-button"); 
+let highscoresLink = document.getElementById("check-high-scores"); 
+let timeLeft = 60;
+let clearHighScoresButton = document.getElementById("clear-high-scores-button");
 
-buttonStart.addEventListener("click", startQuiz);
-highscores.addEventListener("click", viewHighScores);
+buttonStart.addEventListener("click", startQuiz); 
+highscoresLink.addEventListener("click", showHighScores); 
+clearHighScoresButton.addEventListener("click", clearHighScores);
 
 const testQuestions = [
     {
@@ -38,3 +40,93 @@ const testQuestions = [
         answer: "Console.Log",
     }
 ]
+
+// Index to keep track of current question
+let currentQuestionIndex = 0;
+
+// Function to start the quiz, immediately hide the start button.
+function startQuiz() { 
+    buttonStart.style.display = "none";
+    // Display initial time and display the countdown.
+    timerEl.textContent = `Time: ${timeLeft}`;
+    let timer = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = `Time: ${timeLeft}`;
+        // End quiz when time is up or all questions answered
+        if (timeLeft <= 0 || currentQuestionIndex >= testQuestions.length) {
+            clearInterval(timer);
+            endQuiz();
+        }
+    }, 1000);
+    // Display the first question and start the quiz.
+    displayQuestion();
+}
+
+// Function to display a question
+function displayQuestion() {
+    var currentQuestion = testQuestions[currentQuestionIndex];
+    // Display question title
+    mainContent.innerHTML = `<h2>${currentQuestion.title}</h2>`;
+    // Display options as buttons
+    currentQuestion.options.forEach(option => {
+        let button = document.createElement("button");
+        button.textContent = option;
+        button.addEventListener("click", () => checkAnswer(option, currentQuestion.answer));
+        mainContent.appendChild(button);
+    });
+}
+
+// Function to check the selected answer
+function checkAnswer(selected, correctAnswer) {
+    // Penalize time if answer is wrong
+    if (selected !== correctAnswer) {
+        timeLeft -= 6; // Had to fix this numerous times.
+    }
+    currentQuestionIndex++;
+    if (currentQuestionIndex < testQuestions.length) {
+        displayQuestion();
+    } else {
+        endQuiz();
+    }
+}
+
+// Function to end the quiz
+function endQuiz() {
+    // Display end game message and input for initials
+    mainContent.innerHTML = `<h2>Quiz finished!</h2>
+                             <p>Your score: ${timeLeft}</p>
+                             <label for="initials">Enter your initials:</label>
+                             <input type="text" id="initials">
+                             <button id="submit-score">Submit</button>`;
+    document.getElementById("submit-score").addEventListener("click", saveScore);
+}
+
+// Function to save the score with initials and adds the score to an array. Upon finishing will display message. 
+function saveScore() {
+    // Get initials from input
+    let initials = document.getElementById("initials").value;
+    let scores = JSON.parse(localStorage.getItem("scores")) || [];
+    scores.push({ initials, score: timeLeft });
+    localStorage.setItem("scores", JSON.stringify(scores));
+    mainContent.innerHTML = `<h2>Congrats! YOU DID IT!!!!</h2>`;
+}
+
+// Function to show high scores and list them out in decending order from highest to lowest. Could make a tier list?
+function showHighScores(event) {
+    event.preventDefault();
+    let scores = JSON.parse(localStorage.getItem("scores")) || [];
+    mainContent.innerHTML = '<h2>High Scores</h2><ul id="scores-list"></ul>';
+    let scoresList = document.getElementById("scores-list");
+    scores.sort((a, b) => b.score - a.score);
+    scores.forEach(score => {
+        let li = document.createElement("li");
+        li.textContent = `${score.initials}: ${score.score}`;
+        scoresList.appendChild(li);
+    });
+}
+
+// Function to clear high scores from the local storage.
+function clearHighScores() {
+    localStorage.removeItem("scores");
+    mainContent.innerHTML = '<h2>High Scores Cleared!</h2>';
+}

@@ -1,8 +1,8 @@
-head {
+body {
     font-family: 'Arial', sans-serif;
-    background-color:#000000;
+    background-color: #000000;
     color: #ffffff;
-    display: flex;;
+    display: flex;
     justify-content: center;
     align-items: center;
     height: 100px;
@@ -27,43 +27,41 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#timer {
-    font-weight: bold;
-    color: #ffffff;
-}
-
 .Main {
     text-align: center;
     width: 100%;
     max-width: 600px;
     background-color: #000000;
     padding: 40px;
-    border-radius: px;
+    border-radius: 10px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#timer {
+    font-weight: bold;
+    color: #ffffff;
 }
 
 h1, h2 {
-    margin:25px 0;
-    font-size: 2rem;
-    margin-top: 0;
+    margin: 25px 0;
     font-size: 2rem;
     color: #ffffff;
 }
 
-button, .main-content button {
+button {
     padding: 15px 25px;
     background-color: #000000;
     color: #ffffff;
-    border: none;
+    border: 2px solid red;
     border-radius: 10px;
-    font-size: rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 10px;  /* This ensures there's a margin on all sides */
-}
-
-button:hover, .main button:hover {
-    background-color: #ffffff;
+    margin: 10px;
 }
 
 #check-high-scores {
