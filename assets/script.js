@@ -121,6 +121,12 @@ function clearHighScores() {
     localStorage.removeItem("scores");
     mainsection.innerHTML = '<h2>High Scores Cleared!</h2>';
 }
+// Function to restart the quiz without having to refresh the page. It resets the time as well.
+function resetQuiz() {
+    currentQuestionIndex = 0;
+    timeLeft = 60;
+    startQuiz();
+}
 
 //Buttons
 buttonStart.addEventListener("click", startQuiz); 
