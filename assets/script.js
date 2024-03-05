@@ -1,13 +1,9 @@
-let mainContent = document.querySelector("main");
+let mainsection = document.querySelector("main");
 let timerEl = document.getElementById("timer");
 let buttonStart = document.querySelector(".start-button"); 
 let highscoresLink = document.getElementById("check-high-scores"); 
 let timeLeft = 60;
 let clearHighScoresButton = document.getElementById("clear-high-scores-button");
-
-buttonStart.addEventListener("click", startQuiz); 
-highscoresLink.addEventListener("click", showHighScores); 
-clearHighScoresButton.addEventListener("click", clearHighScores);
 
 const testQuestions = [
     {
@@ -15,25 +11,21 @@ const testQuestions = [
         options: ["Strings", "Booleans", "Alerts", "Numbers"],
         answer:  "Alerts",
     },
-
     {
         title: "The condition in an if/else statement is enclosed within _____.",
         options: ["Quotes", "Curley Brackets", "Parenthesis", "Square Brackets"],
         answer: "Parenthesis",
     },
-
     {
         title: "Arrays in JavaScript can be used to store _____?",
         options: ["Numbers and Arrays", "Other Arrays", "Booleans", "All of the above"],
         answer: "All of the above",
     },
-
     {
         title: "String values must be enclosed within ______ when being assigned to variables.",
         options: ["commas", "curly brackets", "quotes", "parenthesis"],
         answer: "quotes",
     },
-
     {
         title: "A very usefool tool used during development and debugging for printing content to the debugger is: ",
         options: ["JavaScript", "Terminal/Bash", "For Loops", "Console.Log"],
@@ -64,15 +56,15 @@ function startQuiz() {
 
 // Function to display a question
 function displayQuestion() {
-    var currentQuestion = testQuestions[currentQuestionIndex];
+    let currentQuestion = testQuestions[currentQuestionIndex];
     // Display question title
-    mainContent.innerHTML = `<h2>${currentQuestion.title}</h2>`;
+    mainsection.innerHTML = `<h2>${currentQuestion.title}</h2>`;
     // Display options as buttons
     currentQuestion.options.forEach(option => {
         let button = document.createElement("button");
         button.textContent = option;
         button.addEventListener("click", () => checkAnswer(option, currentQuestion.answer));
-        mainContent.appendChild(button);
+        mainsection.appendChild(button);
     });
 }
 
@@ -93,7 +85,7 @@ function checkAnswer(selected, correctAnswer) {
 // Function to end the quiz
 function endQuiz() {
     // Display end game message and input for initials
-    mainContent.innerHTML = `<h2>Quiz finished!</h2>
+    mainsection.innerHTML = `<h2>Quiz finished!</h2>
                              <p>Your score: ${timeLeft}</p>
                              <label for="initials">Enter your initials:</label>
                              <input type="text" id="initials">
@@ -115,7 +107,7 @@ function saveScore() {
 function showHighScores(event) {
     event.preventDefault();
     let scores = JSON.parse(localStorage.getItem("scores")) || [];
-    mainContent.innerHTML = '<h2>High Scores</h2><ul id="scores-list"></ul>';
+    mainsection.innerHTML = '<h2>High Scores</h2><ul id="scores-list"></ul>';
     let scoresList = document.getElementById("scores-list");
     scores.sort((a, b) => b.score - a.score);
     scores.forEach(score => {
@@ -128,5 +120,10 @@ function showHighScores(event) {
 // Function to clear high scores from the local storage.
 function clearHighScores() {
     localStorage.removeItem("scores");
-    mainContent.innerHTML = '<h2>High Scores Cleared!</h2>';
+    mainsection.innerHTML = '<h2>High Scores Cleared!</h2>';
 }
+
+//Buttons
+buttonStart.addEventListener("click", startQuiz); 
+highscoresLink.addEventListener("click", showHighScores); 
+clearHighScoresButton.addEventListener("click", clearHighScores);
