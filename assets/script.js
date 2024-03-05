@@ -55,7 +55,7 @@ function startQuiz() {
 }
 
 // Function to display a question and each option as a pushable button. Main section appends to display the question as a string.
-function showQuestionQuestion() {
+function showQuestion() {
     let currentQuestion = testQuestions[currentQuestionIndex];
     mainsection.innerHTML = `<h2>${currentQuestion.title}</h2>`;
     currentQuestion.options.forEach(option => {
