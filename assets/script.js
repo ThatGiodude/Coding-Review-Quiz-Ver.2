@@ -72,7 +72,7 @@ function displayQuestion() {
 function checkAnswer(selected, correctAnswer) {
     // Penalize time if answer is wrong
     if (selected !== correctAnswer) {
-        timeLeft -= 13; // Had to fix this numerous times.
+        timeLeft -= 13; // Had to fix this numerous times. Needed to make a decent penalization for a wrong answer.
     }
     currentQuestionIndex++;
     if (currentQuestionIndex < testQuestions.length) {
@@ -82,9 +82,8 @@ function checkAnswer(selected, correctAnswer) {
     }
 }
 
-// Function to end the quiz
+// Function to end the quiz and display the prompt to upload your score to the local storage.
 function endQuiz() {
-    // Display end game message and input for initials
     mainsection.innerHTML = 
     `<h2>Quiz finished!</h2>
     <p>Your score: ${timeLeft}</p>
@@ -110,7 +109,7 @@ function showHighScores(event) {
     mainsection.innerHTML = '<h2>High Scores</h2><ol id="scores-list"></ol>'; // Changed ul to ol for ordered list
     let scoresList = document.getElementById("scores-list");
     scores.sort((a, b) => b.score - a.score);
-    scores.forEach((score, index) => { // Added index parameter to forEach
+    scores.forEach((score) => {
         let li = document.createElement("li");
         li.textContent = `${score.initials}: ${score.score}`; // Added index + 1 to display rank
         scoresList.appendChild(li);
@@ -132,3 +131,4 @@ function resetQuiz() {
 buttonStart.addEventListener("click", startQuiz); 
 highscoresLink.addEventListener("click", showHighScores); 
 clearHighScoresButton.addEventListener("click", clearHighScores);
+document.getElementById("reload-quiz-button").addEventListener("click", resetQuiz);
