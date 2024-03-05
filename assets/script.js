@@ -5,6 +5,9 @@ let highscoresLink = document.getElementById("check-high-scores");
 let timeLeft = 60;
 let clearHighScoresButton = document.getElementById("clear-high-scores-button");
 
+// Index to keep track of current question
+let currentQuestionIndex = 0;
+
 const testQuestions = [
     {
         title: "Commonly used data types DO NOT include?",
@@ -32,9 +35,6 @@ const testQuestions = [
         answer: "Console.Log",
     }
 ]
-
-// Index to keep track of current question
-let currentQuestionIndex = 0;
 
 // Function to start the quiz, immediately hide the start button.
 function startQuiz() { 
@@ -72,7 +72,7 @@ function displayQuestion() {
 function checkAnswer(selected, correctAnswer) {
     // Penalize time if answer is wrong
     if (selected !== correctAnswer) {
-        timeLeft -= 6; // Had to fix this numerous times.
+        timeLeft -= 13; // Had to fix this numerous times.
     }
     currentQuestionIndex++;
     if (currentQuestionIndex < testQuestions.length) {
@@ -85,38 +85,37 @@ function checkAnswer(selected, correctAnswer) {
 // Function to end the quiz
 function endQuiz() {
     // Display end game message and input for initials
-    mainsection.innerHTML = `<h2>Quiz finished!</h2>
-                             <p>Your score: ${timeLeft}</p>
-                             <label for="initials">Enter your initials:</label>
-                             <input type="text" id="initials">
-                             <button id="submit-score">Submit</button>`;
+    mainsection.innerHTML = 
+    `<h2>Quiz finished!</h2>
+    <p>Your score: ${timeLeft}</p>
+    <label for="initials">Enter your initials:</label>
+    <input type="text" id="initials">
+    <button id="submit-score">Submit</button>`;
     document.getElementById("submit-score").addEventListener("click", saveScore);
 }
 
-// Function to save the score with initials and adds the score to an array. Upon finishing will display message. 
+// Function to save the score with initials and adds the score to an array. 
 function saveScore() {
-    // Get initials from input
     let initials = document.getElementById("initials").value;
     let scores = JSON.parse(localStorage.getItem("scores")) || [];
     scores.push({ initials, score: timeLeft });
     localStorage.setItem("scores", JSON.stringify(scores));
-    mainContent.innerHTML = `<h2>Congrats! YOU DID IT!!!!</h2>`;
+    showHighScores(new Event('click')); // Simulate a click event on the high scores link
 }
 
 // Function to show high scores and list them out in decending order from highest to lowest. Could make a tier list?
 function showHighScores(event) {
     event.preventDefault();
     let scores = JSON.parse(localStorage.getItem("scores")) || [];
-    mainsection.innerHTML = '<h2>High Scores</h2><ul id="scores-list"></ul>';
+    mainsection.innerHTML = '<h2>High Scores</h2><ol id="scores-list"></ol>'; // Changed ul to ol for ordered list
     let scoresList = document.getElementById("scores-list");
     scores.sort((a, b) => b.score - a.score);
-    scores.forEach(score => {
+    scores.forEach((score, index) => { // Added index parameter to forEach
         let li = document.createElement("li");
-        li.textContent = `${score.initials}: ${score.score}`;
+        li.textContent = `${score.initials}: ${score.score}`; // Added index + 1 to display rank
         scoresList.appendChild(li);
     });
 }
-
 // Function to clear high scores from the local storage.
 function clearHighScores() {
     localStorage.removeItem("scores");
