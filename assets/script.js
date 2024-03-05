@@ -51,15 +51,13 @@ function startQuiz() {
         }
     }, 1000);
     // Display the first question and start the quiz.
-    displayQuestion();
+    showQuestion();
 }
 
-// Function to display a question
-function displayQuestion() {
+// Function to display a question and each option as a pushable button. Main section appends to display the question as a string.
+function showQuestionQuestion() {
     let currentQuestion = testQuestions[currentQuestionIndex];
-    // Display question title
     mainsection.innerHTML = `<h2>${currentQuestion.title}</h2>`;
-    // Display options as buttons
     currentQuestion.options.forEach(option => {
         let button = document.createElement("button");
         button.textContent = option;
@@ -76,7 +74,7 @@ function checkAnswer(selected, correctAnswer) {
     }
     currentQuestionIndex++;
     if (currentQuestionIndex < testQuestions.length) {
-        displayQuestion();
+        showQuestion();
     } else {
         endQuiz();
     }
@@ -90,11 +88,11 @@ function endQuiz() {
     <label for="initials">Enter your initials:</label>
     <input type="text" id="initials">
     <button id="submit-score">Submit</button>`;
-    document.getElementById("submit-score").addEventListener("click", saveScore);
+    document.getElementById("submit-score").addEventListener("click", saveHighScore);
 }
 
 // Function to save the score with initials and adds the score to an array. 
-function saveScore() {
+function saveHighScore() {
     let initials = document.getElementById("initials").value;
     let scores = JSON.parse(localStorage.getItem("scores")) || [];
     scores.push({ initials, score: timeLeft });
